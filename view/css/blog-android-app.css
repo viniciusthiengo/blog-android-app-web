@@ -1,0 +1,94 @@
+body{
+    margin: 0;
+    font: normal 1em Arial, sans-serifl;
+}
+
+.cl{
+    clear: both;
+}
+
+#header{
+    padding: 20px 30px;
+    background: #616161;
+    color: #fff;
+    font: normal 2em Arial, sans-serifl;
+}
+
+#container{
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #dcdcdc;
+    border-top: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#container .menu{
+    list-style: none;
+    width: 25%;
+    box-sizing: border-box;
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+#container .menu li{
+    border-bottom: 1px solid #dcdcdc;
+}
+#container .menu a{
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+}
+#container .menu a.checked,
+#container .menu a:hover {
+    background: #dcdcdc;
+}
+#container .content{
+    width: 75%;
+    box-sizing: border-box;
+    padding: 20px;
+    float: right;
+    border-left: 1px solid #dcdcdc;
+}
+
+form input,
+form textarea,
+form select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    margin-top: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #fff;
+}
+form select {
+    height: 31px;
+    font-size: 0.8em;
+}
+form button {
+    display: block;
+    float: right;
+    padding: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #fff;
+    background: #4CAF50;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+}
+form button.delete{
+    margin-right: 10px;
+    background: #f84137;
+}
+form button:hover {
+    opacity: 0.8;
+}
