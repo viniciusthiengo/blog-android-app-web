@@ -20,13 +20,14 @@
 
         <link type="text/css" rel="stylesheet" href="./view/css/blog-android-app.css" />
         <link type="text/css" rel="stylesheet" href="./view/css/mSnackbar.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Timmana" rel="stylesheet">
     </head>
 
 
     <body>
 
         <div id="header">
-            Blog Android App
+            Android Blog App
         </div>
 
 

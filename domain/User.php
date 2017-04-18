@@ -6,14 +6,21 @@ class User
 
     public $id;
     public $email;
+    public $nome;
+    public $profissao;
     public $password;
     public $novoPassword;
+    public $uriImagem;
+    public $logged;
 
 
     public function __construct()
     {
-        if( !empty( $_SESSION[ self::ID_KEY ] ) ){
+        if( !empty($_SESSION[ self::ID_KEY ]) ){
             $this->id = $_SESSION[ self::ID_KEY ];
+        }
+        else if( !empty($_POST[ self::ID_KEY ]) ){
+            $this->id = $_POST[ self::ID_KEY ];
         }
     }
 

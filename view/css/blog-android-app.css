@@ -8,10 +8,11 @@ body{
 }
 
 #header{
-    padding: 20px 30px;
+    padding: 15px 30px 5px;
     background: #616161;
     color: #fff;
-    font: normal 2em Arial, sans-serifl;
+    font: normal 2em 'Timmana', sans-serif;
+    background: url(../img/background.png) top left;
 }
 
 #container{
@@ -37,10 +38,11 @@ body{
 }
 #container .menu a{
     display: block;
-    padding: 10px;
+    padding: 15px 10px 5px;
     text-decoration: none;
     color: #000;
     cursor: pointer;
+    font-family: 'Timmana', sans-serif;
 }
 #container .menu a.checked,
 #container .menu a:hover {
@@ -54,6 +56,9 @@ body{
     border-left: 1px solid #dcdcdc;
 }
 
+form label{
+    font-family: 'Timmana', sans-serif;
+}
 form input,
 form textarea,
 form select {
@@ -75,7 +80,7 @@ form select {
 form button {
     display: block;
     float: right;
-    padding: 10px;
+    padding: 12px 10px 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
@@ -84,6 +89,7 @@ form button {
     border: none;
     font-size: 1em;
     cursor: pointer;
+    font-family: 'Timmana', sans-serif;
 }
 form button.delete{
     margin-right: 10px;
