@@ -2,42 +2,21 @@
 
 class CgdAdmin
 {
-    public function login( User $user )
+    public function atualizarUser( UserSystem $userSystem )
     {
         $query = <<<SQL
-            select
-                id
-              from
-                ba_admin
-              where
+            UPDATE
+                ba_user_system
+              SET
                 email = :email
-              limit 1
-SQL;
-        $database = (new Database($this))->getConn();
-        $statement = $database->prepare($query);
-        $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
-
-        $statement->execute();
-        $database = null;
-        $user->id = $statement->fetchColumn(0);
-    }
-
-
-    public function atualizarUser( User $user )
-    {
-        $query = <<<SQL
-            update
-                ba_admin
-              set
-                email = :email
-              where
+              WHERE
                 id = :id
-              limit 1
+              LIMIT 1
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
-        $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
-        $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
+        $statement->bindValue(':email', $userSystem->email, PDO::PARAM_STR);
+        $statement->bindValue(':id', $userSystem->id, PDO::PARAM_INT);
 
         $statement->execute();
         $database = null;
@@ -45,44 +24,68 @@ SQL;
     }
 
 
-    public function retrieveUser( User $user )
+    public function atualizarPassword( UserSystem $userSystem )
     {
         $query = <<<SQL
-            select
-              email,
-              password
-              from
-                ba_admin
-              where
+            UPDATE
+                ba_user_system
+              SET
+                password = :password
+              WHERE
                 id = :id
-              limit 1
+              LIMIT 1
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
-        $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
+        $userSystem->gerarPasswordHash( true );
+        $statement->bindValue(':password', $userSystem->novoPassword, PDO::PARAM_STR);
+        $statement->bindValue(':id', $userSystem->id, PDO::PARAM_INT);
+
+        $statement->execute();
+        $database = null;
+        return( $statement->rowCount() > 0 );
+    }
+
+
+    public function retrieveUser( UserSystem $userSystem )
+    {
+        $query = <<<SQL
+            SELECT
+                email,
+                password
+              FROM
+                ba_user_system
+              WHERE
+                id = :id
+              LIMIT 1
+SQL;
+        $database = (new Database($this))->getConn();
+        $statement = $database->prepare($query);
+        $statement->bindValue(':id', $userSystem->id, PDO::PARAM_INT);
         $statement->execute();
         $database = null;
 
         if( $statement->rowCount() == 1 ){
             $data = $statement->fetchObject('User');
-            $user->email = $data->email;
-            $user->password = $data->password;
+            $userSystem->email = $data->email;
+            $userSystem->password = $data->password;
         }
     }
 
 
-    public function getPasswordUser( User $user )
+    public function getPasswordUser( UserSystem $userSystem )
     {
-        $campo = empty($user->id) ? 'email' : 'id';
-        $valor = empty($user->id) ? $user->email : $user->id;
+        $campo = empty($userSystem->id) ? 'email' : 'id';
+        $valor = empty($userSystem->id) ? $userSystem->email : $userSystem->id;
+
         $query = <<<SQL
-            select
-              password
-              from
-                ba_admin
-              where
+            SELECT
+                password
+              FROM
+                ba_user_system
+              WHERE
                 {$campo} = :valor
-              limit 1
+              LIMIT 1
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
@@ -93,25 +96,23 @@ SQL;
     }
 
 
-    public function atualizarPassword( User $user )
+    public function login( UserSystem $userSystem )
     {
         $query = <<<SQL
-            update
-                ba_admin
-              set
-                password = :password
-              where
-                id = :id
-              limit 1
+            SELECT
+                id
+              FROM
+                ba_user_system
+              WHERE
+                email = :email
+              LIMIT 1
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
-        $user->gerarPasswordHash( true );
-        $statement->bindValue(':password', $user->novoPassword, PDO::PARAM_STR);
-        $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
+        $statement->bindValue(':email', $userSystem->email, PDO::PARAM_STR);
 
         $statement->execute();
         $database = null;
-        return( $statement->rowCount() > 0 );
+        $userSystem->id = $statement->fetchColumn(0);
     }
 }

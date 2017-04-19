@@ -11,7 +11,7 @@
             <label for="cp-email">
                 Email de login
             </label>
-            <input id="cp-email" type="email" maxlength="100" value="{$user->email}" />
+            <input id="cp-email" type="email" maxlength="100" value="{$userSystem->email}" />
 
 
             <br><br>

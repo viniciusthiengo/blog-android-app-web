@@ -1,11 +1,11 @@
 <?php
+    require_once('../autoload.php');
+
     /*
      * Caso queira encontrar alguns erros em sua aplicação backend,
      * descomente a linha abaixo.
      * */
     //ini_set('display_errors', 1);
-
-    require_once('../autoload.php');
 
 
     /*
@@ -14,11 +14,14 @@
      * */
     $dados = isset($_POST['metodo']) ? $_POST : $_GET;
 
+    header('Content-Type: application/json; charset=utf-8');
+
 
     if( strcasecmp( $dados['metodo'], 'get-posts' ) == 0 ){
         $apl = new AplPost();
-        $postsJson = $apl->getPostsComoJson();
-        echo $postsJson;
+        $posts = $apl->getPosts();
+
+        echo json_encode( $posts );
     }
 
 
@@ -26,7 +29,6 @@
         $apl = new AplPost();
         $categorias = $apl->getCategorias();
 
-        header('Content-Type: application/json; charset=utf-8');
         require_once('../view/form/criar-post.php');
         echo json_encode( array('html'=>$html) );
     }
@@ -39,7 +41,6 @@
         $apl = new AplPost();
         $resultado = $apl->criarPost( $post );
 
-        header('Content-Type: application/json; charset=utf-8');
         echo json_encode( array('resultado'=>$resultado) );
     }
 
@@ -49,21 +50,8 @@
         $posts = $apl->getPosts();
         $categorias = $apl->getCategorias();
 
-        header('Content-Type: application/json; charset=utf-8');
         require_once('../view/form/atualizar-post.php');
         echo json_encode( array('html'=>$html) );
-    }
-
-
-    else if( strcasecmp( $dados['metodo'], 'get-dados-post' ) == 0 ){
-        $post = new Post();
-        $post->setDados_POST();
-
-        $apl = new AplPost();
-        $apl->retrievePost( $post );
-
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode( array('post'=>$post) );
     }
 
 
@@ -74,8 +62,18 @@
         $apl = new AplPost();
         $resultado = $apl->atualizarPost( $post );
 
-        header('Content-Type: application/json; charset=utf-8');
         echo json_encode( array('resultado'=>$resultado) );
+    }
+
+
+    else if( strcasecmp( $dados['metodo'], 'get-dados-post' ) == 0 ){
+        $post = new Post();
+        $post->setDados_POST();
+
+        $apl = new AplPost();
+        $apl->retrievePost( $post );
+
+        echo json_encode( array('post'=>$post) );
     }
 
 
@@ -86,9 +84,5 @@
         $apl = new AplPost();
         $resultado = $apl->deletarPost( $post );
 
-        header('Content-Type: application/json; charset=utf-8');
         echo json_encode( array('resultado'=>$resultado) );
     }
-
-
-

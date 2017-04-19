@@ -11,15 +11,16 @@ class AplAdmin
     }
 
 
-    public function login( User $user ){
-
+    public function login( UserSystem $userSystem )
+    {
         $resultado = 0;
-        $passwordBD = $this->cgdAdmin->getPasswordUser( $user );
-        if( password_verify($user->password, $passwordBD) ){
+        $passwordBD = $this->cgdAdmin->getPasswordUser( $userSystem );
 
-            $this->cgdAdmin->login( $user );
-            if( !empty( $user->id ) ){
-                $_SESSION[User::ID_KEY] = $user->id;
+        if( password_verify( $userSystem->password, $passwordBD ) ){
+
+            $this->cgdAdmin->login( $userSystem );
+            if( !empty( $userSystem->id ) ){
+                $_SESSION[User::ID_KEY] = $userSystem->id;
                 $resultado = 1;
             }
         }
@@ -27,33 +28,36 @@ class AplAdmin
     }
 
 
-    public function atualizarUser( User $user ){
-
+    public function atualizarUser( UserSystem $userSystem )
+    {
         $resultado = 0;
-        $passwordBD = $this->cgdAdmin->getPasswordUser( $user );
-        if( password_verify($user->password, $passwordBD) ){
+        $passwordBD = $this->cgdAdmin->getPasswordUser( $userSystem );
 
-            $resultado = $this->cgdAdmin->atualizarUser( $user );
+        if( password_verify( $userSystem->password, $passwordBD ) ){
+
+            $resultado = $this->cgdAdmin->atualizarUser( $userSystem );
             $resultado = $resultado ? 1 : 0;
         }
         return $resultado;
     }
 
 
-    public function atualizarPassword( User $user ){
-
+    public function atualizarPassword( UserSystem $userSystem )
+    {
         $resultado = 0;
-        $passwordBD = $this->cgdAdmin->getPasswordUser( $user );
-        if( password_verify($user->password, $passwordBD) ){
+        $passwordBD = $this->cgdAdmin->getPasswordUser( $userSystem );
 
-            $resultado = $this->cgdAdmin->atualizarPassword( $user );
+        if( password_verify( $userSystem->password, $passwordBD ) ){
+
+            $resultado = $this->cgdAdmin->atualizarPassword( $userSystem );
             $resultado = $resultado ? 1 : 0;
         }
         return $resultado;
     }
 
 
-    public function retrieveUser( User $user ){
-        $this->cgdAdmin->retrieveUser( $user );
+    public function retrieveUser( UserSystem $userSystem )
+    {
+        $this->cgdAdmin->retrieveUser( $userSystem );
     }
 }

@@ -1,11 +1,12 @@
 <?php
+    session_start();
+    require_once('../autoload.php');
+
     /*
      * Caso queira encontrar alguns erros em sua aplicação backend,
      * descomente a linha abaixo.
      * */
     //ini_set('display_errors', 1);
-    session_start();
-    require_once('../autoload.php');
 
 
     /*
@@ -14,15 +15,16 @@
      * */
     $dados = isset($_POST['metodo']) ? $_POST : $_GET;
 
+    header('Content-Type: application/json; charset=utf-8');
+
 
     if( strcasecmp( $dados['metodo'], 'login' ) == 0 ){
-        $user = new User();
-        $user->setDados_POST();
+        $userSystem = new UserSystem();
+        $userSystem->setDados_POST();
 
         $apl = new AplAdmin();
-        $resultado = $apl->login( $user );
+        $resultado = $apl->login( $userSystem );
 
-        header('Content-Type: application/json; charset=utf-8');
         echo json_encode( array('resultado'=>$resultado) );
     }
 
@@ -30,48 +32,45 @@
     else if( strcasecmp( $dados['metodo'], 'sair' ) == 0 ){
         unset($_SESSION[User::ID_KEY]);
         session_destroy();
+
         echo json_encode( array('resultado'=>1) );
     }
 
 
     else if( strcasecmp( $dados['metodo'], 'form-atualizar-email-login' ) == 0 ){
-        $user = new User();
+        $userSystem = new UserSystem();
 
         $apl = new AplAdmin();
-        $apl->retrieveUser( $user );
+        $apl->retrieveUser( $userSystem );
 
-        header('Content-Type: application/json; charset=utf-8');
         require_once('../view/form/atualizar-email-login.php');
         echo json_encode( array('html'=>$html) );
     }
 
 
     else if( strcasecmp( $dados['metodo'], 'atualizar-email-login' ) == 0 ){
-        $user = new User();
-        $user->setDados_POST();
+        $userSystem = new UserSystem();
+        $userSystem->setDados_POST();
 
         $apl = new AplAdmin();
-        $resultado = $apl->atualizarUser( $user );
+        $resultado = $apl->atualizarUser( $userSystem );
 
-        header('Content-Type: application/json; charset=utf-8');
         echo json_encode( array('resultado'=>$resultado) );
     }
 
 
     else if( strcasecmp( $dados['metodo'], 'form-atualizar-password-login' ) == 0 ){
-        header('Content-Type: application/json; charset=utf-8');
         require_once('../view/form/atualizar-password-login.php');
         echo json_encode( array('html'=>$html) );
     }
 
 
     else if( strcasecmp( $dados['metodo'], 'atualizar-password-login' ) == 0 ){
-        $user = new User();
-        $user->setDados_POST();
+        $userSystem = new UserSystem();
+        $userSystem->setDados_POST();
 
         $apl = new AplAdmin();
-        $resultado = $apl->atualizarPassword( $user );
+        $resultado = $apl->atualizarPassword( $userSystem );
 
-        header('Content-Type: application/json; charset=utf-8');
         echo json_encode( array('resultado'=>$resultado) );
     }

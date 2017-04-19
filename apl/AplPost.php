@@ -11,42 +11,42 @@ class AplPost
     }
 
 
-    public function criarPost( Post $post ){
+    public function criarPost( Post $post )
+    {
         $resultado = $this->cgdPost->criarPost( $post );
         return $resultado ? 1 : 0;
     }
 
 
-    public function atualizarPost( Post $post ){
+    public function atualizarPost( Post $post )
+    {
         $resultado = $this->cgdPost->atualizarPost( $post );
         return $resultado ? 1 : 0;
     }
 
 
-    public function deletarPost( Post $post ){
+    public function deletarPost( Post $post )
+    {
         $resultado = $this->cgdPost->deletarPost( $post );
         return $resultado ? 1 : 0;
     }
 
 
-    public function retrievePost( Post $post ){
+    public function retrievePost( Post $post )
+    {
         $this->cgdPost->retrievePost( $post );
     }
 
 
-    public function getPosts(){
+    public function getPosts()
+    {
         $posts = $this->cgdPost->getPosts();
         return $posts;
     }
 
 
-    public function getPostsComoJson(){
-        $posts = $this->getPosts();
-        return json_encode( $posts );
-    }
-
-
-    public function getCategorias(){
+    public function getCategorias()
+    {
         $categorias = $this->cgdPost->getCategorias();
         return $categorias;
     }

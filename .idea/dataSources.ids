@@ -10,8 +10,8 @@
       <schema id="1" name="blog_android"/>
       <table id="2" parent="1" name="ba_post"/>
       <table id="3" parent="1" name="ba_categoria"/>
-      <table id="4" parent="1" name="ba_admin"/>
-      <table id="5" parent="1" name="ba_user"/>
+      <table id="4" parent="1" name="ba_user"/>
+      <table id="5" parent="1" name="ba_user_system"/>
       <column id="6" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>smallint(5) unsigned</data-type>
@@ -59,73 +59,73 @@
       </key>
       <column id="17" parent="4" name="id">
         <mandatory>1</mandatory>
-        <data-type>smallint(5) unsigned</data-type>
+        <data-type>varchar(200)</data-type>
       </column>
       <column id="18" parent="4" name="email">
         <mandatory>1</mandatory>
         <data-type>varchar(100)</data-type>
       </column>
-      <column id="19" parent="4" name="password">
-        <mandatory>1</mandatory>
-        <data-type>char(60)</data-type>
-      </column>
-      <index id="20" parent="4" name="email">
-        <columns>email</columns>
-        <desc-columns></desc-columns>
-        <unique>1</unique>
-      </index>
-      <index id="21" parent="4" name="password">
-        <columns>password</columns>
-        <desc-columns></desc-columns>
-        <unique>1</unique>
-      </index>
-      <key id="22" parent="4" name="email">
-        <columns>email</columns>
-        <underlying-index>email</underlying-index>
-      </key>
-      <key id="23" parent="4" name="password">
-        <columns>password</columns>
-        <underlying-index>password</underlying-index>
-      </key>
-      <key id="24" parent="4" name="PRIMARY">
-        <columns>id</columns>
-        <primary>1</primary>
-      </key>
-      <column id="25" parent="5" name="id">
-        <mandatory>1</mandatory>
-        <data-type>varchar(200)</data-type>
-      </column>
-      <column id="26" parent="5" name="email">
-        <mandatory>1</mandatory>
-        <data-type>varchar(100)</data-type>
-      </column>
-      <column id="27" parent="5" name="nome">
+      <column id="19" parent="4" name="nome">
         <mandatory>1</mandatory>
         <data-type>varchar(30)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="28" parent="5" name="profissao">
+      <column id="20" parent="4" name="profissao">
         <mandatory>1</mandatory>
         <data-type>varchar(100)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="29" parent="5" name="ultimo_login">
+      <column id="21" parent="4" name="ultimo_login">
         <mandatory>1</mandatory>
         <data-type>int(10) unsigned</data-type>
       </column>
-      <column id="30" parent="5" name="uri_imagem">
+      <column id="22" parent="4" name="uri_imagem">
         <mandatory>1</mandatory>
         <data-type>varchar(160)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <index id="31" parent="5" name="email">
+      <index id="23" parent="4" name="email">
         <columns>email</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="32" parent="5" name="email">
+      <key id="24" parent="4" name="email">
         <columns>email</columns>
         <underlying-index>email</underlying-index>
+      </key>
+      <key id="25" parent="4" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="26" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>smallint(5) unsigned</data-type>
+      </column>
+      <column id="27" parent="5" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="28" parent="5" name="password">
+        <mandatory>1</mandatory>
+        <data-type>char(60)</data-type>
+      </column>
+      <index id="29" parent="5" name="email">
+        <columns>email</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="30" parent="5" name="password">
+        <columns>password</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="31" parent="5" name="email">
+        <columns>email</columns>
+        <underlying-index>email</underlying-index>
+      </key>
+      <key id="32" parent="5" name="password">
+        <columns>password</columns>
+        <underlying-index>password</underlying-index>
       </key>
       <key id="33" parent="5" name="PRIMARY">
         <columns>id</columns>

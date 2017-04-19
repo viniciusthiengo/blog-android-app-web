@@ -3,6 +3,7 @@
 class Database {
 	private $pdo;
 
+
 	public function __destruct()
 	{
 		$this->pdo = null;
@@ -17,13 +18,17 @@ class Database {
 
 		try{
 			$this->pdo = new PDO(
-				sprintf('%s:host=%s;dbname=%s;port=%s;charset=%s', 'mysql', '127.0.0.1', 'blog_android', '8889', 'utf8'),
+				sprintf(
+					'%s:host=%s;dbname=%s;port=%s;charset=%s',
+					'mysql',
+					'127.0.0.1',
+					'blog_android',
+					'8889',
+					'utf8'),
 				'root',
 				'root' );
 		}
-		catch(PDOException $e){
-			exit($e->getMessage());
-		}
+		catch(PDOException $e){}
 		return($this->pdo);
 	}
 }

@@ -5,17 +5,19 @@ class CgdUser
     public function login( User $user )
     {
         $query = <<<SQL
-            insert into
+            INSERT INTO
                 ba_user(
                   id,
                   email,
-                  ultimo_login )
-              values(
+                  ultimo_login
+                )
+              VALUES(
                 :id,
                 :email,
-                :ultimo_login )
-              on duplicate key
-              update
+                :ultimo_login
+              )
+              ON DUPLICATE KEY
+              UPDATE
                 ultimo_login = :ultimo_login
 SQL;
         $database = (new Database($this))->getConn();
@@ -33,15 +35,15 @@ SQL;
     public function retrieveProfileUser( User $user )
     {
         $query = <<<SQL
-            select
+            SELECT
                 nome,
                 profissao,
                 uri_imagem
-              from
+              FROM
                 ba_user
-              where
-                id like :id
-              limit 1
+              WHERE
+                id LIKE :id
+              LIMIT 1
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);

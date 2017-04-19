@@ -5,10 +5,19 @@ class CgdPost
     public function criarPost( Post $post )
     {
         $query = <<<SQL
-            insert into
-                ba_post(titulo, sumario, uri_imagem, id_categoria)
-              values
-                ( :titulo, :sumario, :uri_imagem, :id_categoria )
+            INSERT INTO
+                ba_post(
+                  titulo,
+                  sumario,
+                  uri_imagem,
+                  id_categoria
+                )
+              VALUES(
+                :titulo,
+                :sumario,
+                :uri_imagem,
+                :id_categoria
+              )
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
@@ -26,16 +35,16 @@ SQL;
     public function atualizarPost( Post $post )
     {
         $query = <<<SQL
-            update
+            UPDATE
                 ba_post
-              set
+              SET
                 titulo = :titulo,
                 sumario = :sumario,
                 uri_imagem = :uri_imagem,
                 id_categoria = :id_categoria
-              where
+              WHERE
                 id = :id
-              limit 1
+              LIMIT 1
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
@@ -54,9 +63,9 @@ SQL;
     public function deletarPost( Post $post )
     {
         $query = <<<SQL
-            delete from
+            DELETE FROM
                 ba_post
-              where
+              WHERE
                 id = :id
 SQL;
         $database = (new Database($this))->getConn();
@@ -72,16 +81,16 @@ SQL;
     public function retrievePost( Post $post )
     {
         $query = <<<SQL
-            select
-              titulo,
-              sumario,
-              uri_imagem,
-              id_categoria
-              from
+            SELECT
+                titulo,
+                sumario,
+                uri_imagem,
+                id_categoria
+              FROM
                 ba_post
-              where
+              WHERE
                 id = :id
-              limit 1
+              LIMIT 1
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
@@ -102,12 +111,12 @@ SQL;
     public function getPosts()
     {
         $query = <<<SQL
-            select
-              *
-              from
+            SELECT
+                *
+              FROM
                 ba_post
-              order by
-                id desc
+              ORDER BY
+                id DESC
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
@@ -125,9 +134,9 @@ SQL;
     public function getCategorias()
     {
         $query = <<<SQL
-            select
-              *
-              from
+            SELECT
+                *
+              FROM
                 ba_categoria
 SQL;
         $database = (new Database($this))->getConn();

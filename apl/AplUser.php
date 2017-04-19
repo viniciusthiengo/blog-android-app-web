@@ -11,7 +11,8 @@ class AplUser
     }
 
 
-    public function login( User $user ){
+    public function login( User $user )
+    {
         $user->logged = $this->cgdUser->login( $user );
         $this->cgdUser->retrieveProfileUser( $user );
     }
