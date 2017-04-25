@@ -2,7 +2,7 @@
 
 class CgdAdmin
 {
-    public function atualizarUser( UserSystem $userSystem )
+    public function atualizarEmail( UserSystem $userSystem )
     {
         $query = <<<SQL
             UPDATE
@@ -47,7 +47,7 @@ SQL;
     }
 
 
-    public function retrieveUser( UserSystem $userSystem )
+    public function retrieveUserSystem( UserSystem $userSystem )
     {
         $query = <<<SQL
             SELECT
@@ -73,7 +73,7 @@ SQL;
     }
 
 
-    public function getPasswordUser( UserSystem $userSystem )
+    public function getPassword( UserSystem $userSystem )
     {
         $campo = empty($userSystem->id) ? 'email' : 'id';
         $valor = empty($userSystem->id) ? $userSystem->email : $userSystem->id;

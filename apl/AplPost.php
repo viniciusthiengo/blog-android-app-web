@@ -14,7 +14,14 @@ class AplPost
     public function criarPost( Post $post )
     {
         $resultado = $this->cgdPost->criarPost( $post );
-        return $resultado ? 1 : 0;
+        $resultado = $resultado ? 1 : 0;
+
+        if( $resultado ){
+            $aplNotificacao = new AplNotificacao();
+            $aplNotificacao->sendNotificacaoPush( $post );
+        }
+
+        return $resultado;
     }
 
 

@@ -13,6 +13,7 @@
      * para não precisar configurar toda a APP para simples testes no backend.
      * */
     $dados = isset($_POST['metodo']) ? $_POST : $_GET;
+    $_POST = $dados; /* Para obter dados dentro dos objetos, somente $_POST é utilizado */
 
     header('Content-Type: application/json; charset=utf-8');
 
@@ -25,4 +26,16 @@
         $apl->login( $user );
 
         echo json_encode( $user );
+    }
+
+
+    else if( strcasecmp( $dados['metodo'], 'registrar-token-notificacao' ) == 0 ){
+        $user = new User();
+        $user->setDados_POST();
+
+        $apl = new AplUser();
+        $obj = new stdClass();
+        $obj->resultado = $apl->saveToken( $user );
+
+        echo json_encode( $obj );
     }

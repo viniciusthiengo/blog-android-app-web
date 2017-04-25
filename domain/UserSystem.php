@@ -29,10 +29,16 @@ class UserSystem
     public function gerarPasswordHash( $ehNovoPassword=false )
     {
         if( $ehNovoPassword ){
-            $this->novoPassword = password_hash($this->novoPassword, PASSWORD_DEFAULT, ['cost'=>12]);
+            $this->novoPassword = password_hash(
+                $this->novoPassword,
+                PASSWORD_DEFAULT,
+                ['cost'=>12] );
         }
         else{
-            $this->password = password_hash($this->password, PASSWORD_DEFAULT, ['cost'=>12]);
+            $this->password = password_hash(
+                $this->password,
+                PASSWORD_DEFAULT,
+                ['cost'=>12] );
         }
     }
 }

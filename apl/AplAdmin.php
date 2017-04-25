@@ -14,7 +14,7 @@ class AplAdmin
     public function login( UserSystem $userSystem )
     {
         $resultado = 0;
-        $passwordBD = $this->cgdAdmin->getPasswordUser( $userSystem );
+        $passwordBD = $this->cgdAdmin->getPassword( $userSystem );
 
         if( password_verify( $userSystem->password, $passwordBD ) ){
 
@@ -28,14 +28,14 @@ class AplAdmin
     }
 
 
-    public function atualizarUser( UserSystem $userSystem )
+    public function atualizarEmail( UserSystem $userSystem )
     {
         $resultado = 0;
-        $passwordBD = $this->cgdAdmin->getPasswordUser( $userSystem );
+        $passwordBD = $this->cgdAdmin->getPassword( $userSystem );
 
         if( password_verify( $userSystem->password, $passwordBD ) ){
 
-            $resultado = $this->cgdAdmin->atualizarUser( $userSystem );
+            $resultado = $this->cgdAdmin->atualizarEmail( $userSystem );
             $resultado = $resultado ? 1 : 0;
         }
         return $resultado;
@@ -45,7 +45,7 @@ class AplAdmin
     public function atualizarPassword( UserSystem $userSystem )
     {
         $resultado = 0;
-        $passwordBD = $this->cgdAdmin->getPasswordUser( $userSystem );
+        $passwordBD = $this->cgdAdmin->getPassword( $userSystem );
 
         if( password_verify( $userSystem->password, $passwordBD ) ){
 
@@ -56,8 +56,8 @@ class AplAdmin
     }
 
 
-    public function retrieveUser( UserSystem $userSystem )
+    public function retrieveUserSystem( UserSystem $userSystem )
     {
-        $this->cgdAdmin->retrieveUser( $userSystem );
+        $this->cgdAdmin->retrieveUserSystem( $userSystem );
     }
 }
