@@ -68,7 +68,7 @@ SQL;
                   id_user,
                   token
                 )
-              VALUES(
+              VALUES (
                 :id_user,
                 :token
               )
@@ -90,8 +90,7 @@ SQL;
             DELETE FROM
                 ba_token
               WHERE
-                token LIKE :token
-               LIMIT 1
+                token = :token
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
@@ -99,23 +98,23 @@ SQL;
 
         $statement->execute();
         $database = null;
-        return $statement->rowCount() > 0;
     }
 
 
-    public function getUsersTokens( $offsetUser )
+    public function getUsersTokens( $startUser )
     {
         $maxTokens = Constante::MAX_TOKENS;
         $query = <<<SQL
             SELECT
-                id_user,
-                token
+                  id_user,
+                  token
               FROM
                 ba_token
-              LIMIT {$maxTokens} OFFSET {$offsetUser}
+              LIMIT {$maxTokens} OFFSET {$startUser}
 SQL;
         $database = (new Database($this))->getConn();
         $statement = $database->prepare($query);
+
         $statement->execute();
         $database = null;
 
@@ -123,6 +122,7 @@ SQL;
         while( ($user = $statement->fetchObject('User')) !== false ){
             $users[] = $user;
         }
+
         return $users;
     }
 }

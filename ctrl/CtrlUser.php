@@ -34,8 +34,10 @@
         $user->setDados_POST();
 
         $apl = new AplUser();
-        $obj = new stdClass();
-        $obj->resultado = $apl->saveToken( $user );
+        $resultado = $apl->saveToken( $user );
 
+        $obj = new stdClass();
+        $obj->resultado = $resultado;
         echo json_encode( $obj );
     }
+

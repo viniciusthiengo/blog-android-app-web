@@ -21,20 +21,18 @@ class AplUser
     public function saveToken( User $user )
     {
         $resultado = $this->cgdUser->saveToken( $user );
-        $resultado = $resultado ? 1 : 0;
-        return $resultado;
+        return $resultado ? 1 : 0;
     }
 
 
     public function deleteToken( User $user )
     {
-        return $this->cgdUser->deleteToken( $user );
+        $this->cgdUser->deleteToken( $user );
     }
 
 
-    public function getUsersTokens( $offsetUser )
+    public function getUsersTokens( $startUser )
     {
-        $users = $this->cgdUser->getUsersTokens( $offsetUser );
-        return $users;
+        return $this->cgdUser->getUsersTokens( $startUser );
     }
 }
