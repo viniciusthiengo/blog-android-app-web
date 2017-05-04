@@ -35,4 +35,10 @@ class AplUser
     {
         return $this->cgdUser->getUsersTokens( $startUser );
     }
+
+
+    public function getTotalTokens()
+    {
+        return $this->cgdUser->getTotalTokens();
+    }
 }

@@ -60,6 +60,7 @@ body {
     border-left: 1px solid #dcdcdc;
 }
 
+form h3,
 form label {
     font-family: 'Timmana', sans-serif;
 }
@@ -106,4 +107,8 @@ form button.delete {
 
 form button:hover {
     opacity: 0.8;
+}
+
+form .relatorio {
+    margin-bottom: 20px;
 }

@@ -5,7 +5,7 @@
      * Caso queira encontrar alguns erros em sua aplicação backend,
      * descomente a linha abaixo.
      * */
-    //ini_set('display_errors', 1);
+    ini_set('display_errors', 1);
 
 
     /*
@@ -40,4 +40,6 @@
         $obj->resultado = $resultado;
         echo json_encode( $obj );
     }
+
+
 

@@ -50,52 +50,98 @@ class AplNotificacao
     }
 
 
-    private function trabalhandoRequisicaoFCM( $curl, $users ){
+    private function trabalhandoRequisicaoFCM( $curl ){
         $saida = curl_exec( $curl );
         curl_close($curl);
 
         $body = json_decode($saida);
-        $results = $body->results;
-
-        for( $i = 0, $tam = count($results); $i < $tam; $i++ ){
-
-            if( isset( $results[$i]->registration_id ) ){
-                /* UM NOVO TOKEN FOI GERADO PARA ESSA INSTÂNCIA */
-                $this->aplUser->deleteToken( $users[$i] ); /* DELETA O ANTIGO */
-                $users[$i]->token = $results[$i]->registration_id;
-                $this->aplUser->saveToken( $users[$i] ); /* SALVA O NOVO */
-            }
-
-            else if( strcasecmp($results[$i]->error, 'NotRegistered') == 0 ){
-                /*
-                 * TOKEN NÃO MAIS REGISTRADO, DELETAMOS SOMENTE ELE
-                 * E NÃO O USUÁRIO TAMBÉM, ISSO, POIS EM NOSSO DOMÍNIO
-                 * DO PROBLEMA O USUÁRIO NÃO TEM A OPÇÃO DE DELETAR
-                 * CONTA
-                 * */
-                $this->aplUser->deleteToken( $users[$i] );
-            }
-        }
+        return isset($body->message_id);
     }
 
 
     public function sendNotificacaoPush( Post $post ){
         $notification = $this->getNotificacaoObj( $post );
+        $notification->to = $post->categoria->getTopic();
 
+        $curl = $this->getCurlObj( $notification );
+        $this->trabalhandoRequisicaoFCM( $curl, null );
+    }
+
+
+    public function retrieveCategoriaRelatorio( $categorias ){
+        /*
+         * REUTILIZANDO O MÉTODO getUsersTokens() PARA A
+         * OBTENÇÃO DE TODOS OS TOKENS JÁ SALVOS. POR ISSO
+         * TAMBÉM MANTEMOS A LÓGICA DE NEGÓCIO UTILIZANDO
+         * UM while().
+         * */
         $startUser = 0;
         $users = $this->aplUser->getUsersTokens( $startUser );
 
-        while( count($users) > 0 ){
+        while( count($users) > 0){
 
-            $notification->registration_ids = [];
             foreach( $users as $user ){
-                $notification->registration_ids[] = $user->token;
+                $curl = $this->getCurlObjReport( $user->token );
+                $resultado = curl_exec( $curl );
+                curl_close($curl);
+
+                $resultado = json_decode($resultado);
+
+                /*
+                 * TRABALHANDO O RESULTADO RETORNADO DOS SERVIDORES
+                 * DO FCM PARA A REQUISIÇÃO INDIVIDUAL DE RELATÓRIO DE
+                 * CADA TOKEN, CASO NÃO HAJA ERRO TRABALHAMOS A
+                 * CONTAGEM NAS CATEGORIAS PRESENTES NO RESULTADO DO
+                 * TOKEN. CASO TENHA ERRO E ELE SEJA DE TOKEN INVÁLIDO,
+                 * APENAS CONTINUAMOS O TRABALHO COM OS ALGORITMOS DE
+                 * REMOÇÃO DE TOKEN DA BASE DE DADOS.
+                 * */
+                if( empty($resultado->error) ){
+                    $topics = $resultado->rel->topics;
+
+                    for( $i = 0; $i < count($categorias); $i++ ){
+                        if( property_exists($topics, "categoria_" . $categorias[$i]->id) ){
+                            $categorias[$i]->count++;
+                        }
+                    }
+                }
+                else if( strcasecmp($resultado->error, 'InvalidToken') == 0 ){
+                    $this->aplUser->deleteToken( $user );
+                }
             }
 
-            $curl = $this->getCurlObj( $notification );
-            $this->trabalhandoRequisicaoFCM( $curl, $users );
+            /*
+             * ATUALIZANDO O ARRAY DE USUÁRIOS COM TOKENS QUE DEVEM
+             * SER AINDA TESTADOS.
+             * */
+            $startUser += Constante::MAX_TOKENS;
+            $users = $this->aplUser->getUsersTokens( $startUser );
+        }
 
-            $users = $this->aplUser->getUsersTokens( $startUser + Constante::MAX_TOKENS );
+        /*
+         * INVOCANDO O MÉTODO DE CÁLCULO DAS PORCENTAGENS
+         * DE CADA CATEGORIA EM ARRAY.
+         * */
+        $this->calcCategoriaRelatorioPercent( $categorias );
+    }
+
+    private function getCurlObjReport( $userToken ){
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            'Content-Type:application/json',
+            'Authorization:key=' . Constante::FCM_KEY
+        ]);
+        curl_setopt($curl, CURLOPT_URL, 'https://iid.googleapis.com/iid/info/'.$userToken.'?details=true');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        return $curl;
+    }
+
+    private function calcCategoriaRelatorioPercent( $categorias ){
+        $totalTokens = $this->aplUser->getTotalTokens();
+
+        foreach( $categorias as $categoria){
+            $categoria->calcPercent( $totalTokens );
         }
     }
 }

@@ -125,4 +125,21 @@ SQL;
 
         return $users;
     }
+
+
+    public function getTotalTokens()
+    {
+        $query = <<<SQL
+            SELECT
+                COUNT(*)
+              FROM
+                ba_token
+SQL;
+        $database = (new Database($this))->getConn();
+        $statement = $database->prepare($query);
+
+        $statement->execute();
+        $database = null;
+        return $statement->fetchColumn(0);
+    }
 }

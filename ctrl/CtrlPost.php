@@ -86,3 +86,15 @@
 
         echo json_encode( array('resultado'=>$resultado) );
     }
+
+
+    else if( strcasecmp( $dados['metodo'], 'relatorio-categorias' ) == 0 ){
+        $apl = new AplUser();
+        $instalacoes = $apl->getTotalTokens();
+
+        $apl = new AplPost();
+        $categorias = $apl->getCategoriasRelatorio();
+
+        require_once('../view/relatorio/categorias.php');
+        echo json_encode( array('html'=>$html) );
+    }

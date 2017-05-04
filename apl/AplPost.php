@@ -57,4 +57,15 @@ class AplPost
         $categorias = $this->cgdPost->getCategorias();
         return $categorias;
     }
+
+
+    public function getCategoriasRelatorio()
+    {
+        $categorias = $this->getCategorias();
+
+        $apl = new AplNotificacao();
+        $apl->retrieveCategoriaRelatorio( $categorias );
+
+        return $categorias;
+    }
 }

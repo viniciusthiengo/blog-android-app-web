@@ -170,6 +170,37 @@
         });
 
 
+    /* USER */
+        $(document).on('submit', '#form-individual-notificacao-push', function( e ){
+            e.preventDefault();
+            var $handler = $(this);
+            var mensagemFeedback = 'Mensagem enviada com sucesso!';
+            var buttonSendingLabel = 'Enviando mensagem...';
+            var buttonEndLabel = 'Enviar notificação push';
+
+            var dados = {
+                'metodo': $('#metodo').val(),
+                'id': $('#cp-user').val(),
+                'titulo': $('#cp-titulo').val(),
+                'mensagem': $('#cp-mensagem').val(),
+                'big-icon': $('#cp-big-icon').val()
+            };
+            var callback = function(data){
+                buttonLabel( $handler, buttonEndLabel );
+                if( data.resultado == 1 ){
+                    snackBar( mensagemFeedback );
+                    limparCampos( $handler );
+                }
+                else{
+                    snackBar( 'Falhou! Reveja os campos e tente novamente.' );
+                }
+            };
+
+            buttonLabel( $handler, buttonSendingLabel );
+            ajaxRequest( 'CtrlUser', dados, callback );
+        });
+
+
 
 /* FUNÇÕES */
     function ajaxRequest( ctrl, dados, callback ){

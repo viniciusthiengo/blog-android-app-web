@@ -12,6 +12,11 @@
                 </a>
             </li>
             <li>
+                <a href="#CtrlPost|relatorio-categorias" title="Relatório categorias">
+                    Relatório categorias
+                </a>
+            </li>
+            <li>
                 <a href="#CtrlAdmin|form-atualizar-email-login" title="Atualizar email login">
                     Atualizar email login
                 </a>

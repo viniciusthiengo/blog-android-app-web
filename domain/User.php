@@ -8,6 +8,10 @@ class User extends UserSystem
     public $logged;
     public $token;
 
+    public $titulo;
+    public $mensagem;
+    public $bigIcon;
+
 
     public function __construct()
     {
@@ -30,5 +34,23 @@ class User extends UserSystem
     {
         parent::setDados_POST();
         $this->token = $_POST['token'];
+
+        $this->titulo = $_POST['titulo'];
+        $this->mensagem = $_POST['mensagem'];
+        $this->bigIcon = $_POST['big-icon'];
+    }
+
+
+    public function getNotificacaoPush()
+    {
+        $obj = new stdClass();
+        $obj->delay_while_idle = true;
+
+        $obj->data = new stdClass();
+        $obj->data->title = $this->titulo;
+        $obj->data->body = $this->mensagem;
+        $obj->data->bigIcon = $this->bigIcon;
+
+        return $obj;
     }
 }
