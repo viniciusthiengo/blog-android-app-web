@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: viniciusthiengo
- * Date: 25/04/17
- * Time: 12:54
- */
 class AplNotificacao
 {
     private $aplUser;
@@ -20,12 +14,6 @@ class AplNotificacao
     {
         $obj = new stdClass();
         $obj->delay_while_idle = true;
-
-        $obj->notification = new stdClass();
-        $obj->notification->title = $post->titulo;
-        $obj->notification->body = $post->sumario;
-        $obj->notification->color = '#9E9E9E';
-        $obj->notification->icon = $post->categoria->getMobIcon();
 
         $obj->data = new stdClass();
         $obj->data->post = $post;
@@ -55,16 +43,17 @@ class AplNotificacao
         curl_close($curl);
 
         $body = json_decode($saida);
-        return isset($body->message_id);
+        return isset( $body->message_id );
     }
 
 
     public function sendNotificacaoPush( Post $post ){
         $notification = $this->getNotificacaoObj( $post );
         $notification->to = $post->categoria->getTopic();
+        //$notification->condition = "'categoria_2' in topics && ('categoria_1' in topics || 'categoria_3' in topics)";
 
         $curl = $this->getCurlObj( $notification );
-        $this->trabalhandoRequisicaoFCM( $curl, null );
+        $this->trabalhandoRequisicaoFCM( $curl );
     }
 
 
@@ -100,6 +89,7 @@ class AplNotificacao
                     $topics = $resultado->rel->topics;
 
                     for( $i = 0; $i < count($categorias); $i++ ){
+
                         if( property_exists($topics, "categoria_" . $categorias[$i]->id) ){
                             $categorias[$i]->count++;
                         }
@@ -125,17 +115,19 @@ class AplNotificacao
         $this->calcCategoriaRelatorioPercent( $categorias );
     }
 
+
     private function getCurlObjReport( $userToken ){
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Content-Type:application/json',
             'Authorization:key=' . Constante::FCM_KEY
         ]);
-        curl_setopt($curl, CURLOPT_URL, 'https://iid.googleapis.com/iid/info/'.$userToken.'?details=true');
+        curl_setopt($curl, CURLOPT_URL, 'https://iid.googleapis.com/iid/info/' . $userToken . '?details=true');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         return $curl;
     }
+
 
     private function calcCategoriaRelatorioPercent( $categorias ){
         $totalTokens = $this->aplUser->getTotalTokens();

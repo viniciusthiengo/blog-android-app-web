@@ -93,8 +93,9 @@
         $instalacoes = $apl->getTotalTokens();
 
         $apl = new AplPost();
-        $categorias = $apl->getCategoriasRelatorio();
+        $categorias = $apl->getRelatorioCategorias();
 
         require_once('../view/relatorio/categorias.php');
         echo json_encode( array('html'=>$html) );
     }
+

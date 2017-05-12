@@ -59,12 +59,12 @@ class AplPost
     }
 
 
-    public function getCategoriasRelatorio()
+    public function getRelatorioCategorias()
     {
         $categorias = $this->getCategorias();
 
         $apl = new AplNotificacao();
-        $apl->retrieveCategoriaRelatorio( $categorias );
+        $apl->retrieveCategoriaRelatorio($categorias);
 
         return $categorias;
     }

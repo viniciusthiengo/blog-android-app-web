@@ -20,51 +20,24 @@ class Categoria
     }
 
 
-    public function getMobIcon()
-    {
-        switch( $this->id ){
-            case 1:
-                return 'ic_categoria_1';
-            case 2:
-                return 'ic_categoria_2';
-            case 3:
-                return 'ic_categoria_3';
-            case 4:
-                return 'ic_categoria_4';
-            default:
-                return 'ic_categoria_5';
-        }
-    }
-
-
     public function getTopic()
     {
-        switch( $this->id ){
-            case 1:
-                return '/topics/categoria_1';
-            case 2:
-                return '/topics/categoria_2';
-            case 3:
-                return '/topics/categoria_3';
-            case 4:
-                return '/topics/categoria_4';
-            default:
-                return '/topics/categoria_5';
-        }
+        return '/topics/categoria_'.$this->id;
     }
 
 
-    public function calcPercent( $total )
+    public function calcPercent( $totalTokens )
     {
-        if( $total == 0 ){
+        if( $totalTokens == 0 ){
             return;
         }
-        $this->percent = ($this->count / $total) * 100;
+
+        $this->percent = ($this->count / $totalTokens) * 100;
     }
 
 
     public function getPercentAsString()
     {
-        return sprintf('%.1f', $this->percent).'%';
+        return sprintf( '%.1f', $this->percent ).'%';
     }
 }
