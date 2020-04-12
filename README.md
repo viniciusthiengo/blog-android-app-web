@@ -2,7 +2,7 @@
 
 Projeto Web do artigo [FCM Android - Domínio do Problema, Implementação e Testes Com Servidor de Aplicativo](https://www.thiengo.com.br/fcm-android-dominio-do-problema-implementacao-e-testes-com-servidor-de-aplicativo-parte-1#title-02) do Blog [Thiengo.com.br](https://www.thiengo.com.br).
 
-Este é um projeto de apoio ao aplicativo Android desenvolido em artigo para apresentar, em detalhes, a API nativa Android de notificações push, a API Firebase Cloud Messaging (FCM).
+Este é um projeto de apoio ao aplicativo Android desenvolvido em artigo para apresentar, em detalhes, a API nativa Android de notificações push, a API Firebase Cloud Messaging (FCM).
 
 <img src="https://www.thiengo.com.br/img/post/normal/nnlpkibnlumpti5s0ird35kpu58a25cebcca1087a5d4e5725cef4aee43.jpg" width="570" alt="Formulário de novo post no dashboard de administrador do Blog">
 
